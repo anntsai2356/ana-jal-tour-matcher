@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ANA／JAL 見習場次配對</title>
+<style>
+:root{--bg:#F5F7FA;--card:#fff;--ink:#1B2430;--sub:#5B6675;--line:#C3CAD4;--a-f:#E8ECF8;--a-s:#3F51B5;--a-t:#1F2A6B;--j-f:#E0F2F1;--j-s:#00897B;--j-t:#004D45;--u-f:#FFF3E0;--u-s:#E65100;--u-t:#8A3B00;--f-f:#E4F4E1;--f-s:#4CAF50;--f-t:#0B6B0B;--m-f:#E3F0FC;--m-s:#4A90D9;--m-t:#184F95;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12171E;--card:#1B222B;--ink:#E8EDF3;--sub:#9AA6B5;--line:#3A4553;--a-f:#232B52;--a-s:#8C9AF0;--a-t:#DDE2FF;--j-f:#0F3A36;--j-s:#4DB6AC;--j-t:#CDEFEA;--u-f:#4A2A10;--u-s:#FFA057;--u-t:#FFD9B8;--f-f:#17331A;--f-s:#6FCF73;--f-t:#C8EEC9;--m-f:#15304D;--m-s:#6AA9EA;--m-t:#CFE4FA;}}
+:root[data-theme="dark"]{--bg:#12171E;--card:#1B222B;--ink:#E8EDF3;--sub:#9AA6B5;--line:#3A4553;--a-f:#232B52;--a-s:#8C9AF0;--a-t:#DDE2FF;--j-f:#0F3A36;--j-s:#4DB6AC;--j-t:#CDEFEA;--u-f:#4A2A10;--u-s:#FFA057;--u-t:#FFD9B8;--f-f:#17331A;--f-s:#6FCF73;--f-t:#C8EEC9;--m-f:#15304D;--m-s:#6AA9EA;--m-t:#CFE4FA;}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 system-ui,-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+main{max-width:560px;margin:0 auto;padding:20px 16px 32px}
+h1{font-size:22px;font-weight:500;margin:0 0 4px}
+.sub{color:var(--sub);font-size:14px;margin:0 0 16px}
+.ctl{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14px;color:var(--sub);margin-bottom:8px}
+select,button{font:inherit;font-size:14px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+button{margin-left:auto;cursor:pointer}
+svg{width:100%;height:auto;display:block}
+.h{font-size:14px;font-weight:500;fill:var(--ink)}
+.t{font-size:14px;font-weight:500}.s{font-size:12px}
+.slot{cursor:pointer;transition:opacity .2s}
+.slot rect{stroke-width:1.5}
+.slot:focus{outline:none}
+.slot.sel rect,.slot:focus-visible rect{stroke-width:3.5}
+.ana rect{fill:var(--a-f);stroke:var(--a-s)}.ana text{fill:var(--a-t)}
+.jal rect{fill:var(--j-f);stroke:var(--j-s)}.jal text{fill:var(--j-t)}
+.unk rect{fill:var(--u-f);stroke:var(--u-s);stroke-dasharray:5 3}.unk text{fill:var(--u-t)}
+.e{stroke:var(--line);stroke-width:1;stroke-linecap:round;transition:opacity .2s}
+.e.on{stroke:var(--ink);stroke-width:2.5}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--sub);margin:12px 0}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;border:1.5px solid;vertical-align:-1px;margin-right:5px}
+#st{font-size:14px;min-height:56px;margin:0;padding:10px 12px;background:var(--card);border:1px solid var(--line);border-radius:8px}
+.flow{margin:24px 0 0}
+.flow h2{font-size:16px;font-weight:500;margin:0 0 6px}
+.flow svg{margin-bottom:4px}
+.fh{font-size:14px;font-weight:500;fill:var(--ink)}
+.fb{font-size:14px;font-weight:500;fill:var(--m-t)}
+.fn{font-size:12px;fill:var(--sub)}
+.c polygon{stroke-width:1}.c .n{font-size:14px;font-weight:500}.c .d{font-size:12px}
+.c.free polygon{fill:var(--f-f);stroke:var(--f-s)}.c.free text{fill:var(--f-t)}
+.c.main polygon{fill:var(--m-f);stroke:var(--m-s)}.c.main text{fill:var(--m-t)}
+.c.gate polygon{fill:var(--card);stroke:var(--line)}.c.gate text{fill:var(--ink)}.c.gate .d{fill:var(--sub)}
+.br{fill:none;stroke:var(--m-s);stroke-width:1.5;stroke-dasharray:4 3}
+.flow .legend{margin:4px 0 0}
+@media (prefers-reduced-motion:reduce){.slot,.e{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<h1>ANA／JAL 見習場次配對</h1>
+<p class="sub">點任一邊的時段，看它可以搭配對方的哪些場次。連線代表兩場時間不重疊，且中間至少間隔所選的分鐘數。</p>
+<div class="ctl">
+  <label for="buf">場次之間至少間隔</label>
+  <select id="buf">
+    <option value="0">0 分</option><option value="15">15 分</option><option value="30" selected>30 分</option><option value="45">45 分</option><option value="60">60 分</option>
+  </select>
+  <button id="clr" type="button">清除選取</button>
+</div>
+<svg id="sv" viewBox="0 0 460 400" role="group" aria-label="ANA 與 JAL 見習場次連線圖">
+  <text class="h" x="95" y="24" text-anchor="middle">ANA・每場 75 分</text>
+  <text class="h" x="365" y="24" text-anchor="middle">JAL・每場 130 分</text>
+  <g id="ln"></g>
+  <g id="nd"></g>
+</svg>
+<div class="legend">
+  <span><i class="sw" style="background:var(--a-f);border-color:var(--a-s)"></i>ANA</span>
+  <span><i class="sw" style="background:var(--j-f);border-color:var(--j-s)"></i>JAL</span>
+  <span><i class="sw" style="background:var(--u-f);border-color:var(--u-s);border-style:dashed"></i>不一定會開</span>
+</div>
+<p id="st" aria-live="polite"></p>
+<section class="flow" aria-label="入場與參觀流程">
+<h2>見習流程</h2>
+<svg viewBox="0 0 460 332" role="img" aria-label="ANA 與 JAL 見習流程示意圖。ANA：報到自由參觀 30 分、說明會 15 分、機庫參觀 60 分、結束後自由參觀 30 分，其中說明會與機庫參觀共 75 分。JAL：報到 15 分，之後 80 分博物館體驗與 50 分機庫參觀，共 130 分的見習。">
+<text class="fh" x="6" y="18">ANA</text>
+<path class="br" d="M130 60V52H328V60"/><text class="fb" x="229.0" y="40" text-anchor="middle">見習 75 分</text>
+<g class="c free"><polygon points="6,66 104,66 116,94 104,122 6,122"/><text class="n" x="61.0" y="88" text-anchor="middle">30 分</text><text class="d" x="61.0" y="107" text-anchor="middle">報到・自由參觀</text></g>
+<g class="c main"><polygon points="118,66 216,66 228,94 216,122 118,122 130,94"/><text class="n" x="175.0" y="88" text-anchor="middle">15 分</text><text class="d" x="175.0" y="107" text-anchor="middle">說明會（VTR）</text></g>
+<g class="c main"><polygon points="230,66 328,66 340,94 328,122 230,122 242,94"/><text class="n" x="287.0" y="88" text-anchor="middle">60 分</text><text class="d" x="287.0" y="107" text-anchor="middle">機庫參觀</text></g>
+<g class="c free"><polygon points="342,66 440,66 452,94 440,122 342,122 354,94"/><text class="n" x="399.0" y="88" text-anchor="middle">30 分</text><text class="d" x="399.0" y="107" text-anchor="middle">自由參觀</text></g>
+<text class="fn" x="6" y="146">開始前 30 分鐘報到，提早報到可先參觀</text>
+<text class="fh" x="6" y="190">JAL</text>
+<path class="br" d="M130 232V224H328V232"/><text class="fb" x="229.0" y="212" text-anchor="middle">見習 130 分</text>
+<g class="c gate"><polygon points="6,238 104,238 116,266 104,294 6,294"/><text class="n" x="61.0" y="260" text-anchor="middle">15 分</text><text class="d" x="61.0" y="279" text-anchor="middle">報到</text></g>
+<g class="c main"><polygon points="118,238 216,238 228,266 216,294 118,294 130,266"/><text class="n" x="175.0" y="260" text-anchor="middle">80 分</text><text class="d" x="175.0" y="279" text-anchor="middle">博物館體驗</text></g>
+<g class="c main"><polygon points="230,238 328,238 340,266 328,294 230,294 242,266"/><text class="n" x="287.0" y="260" text-anchor="middle">50 分</text><text class="d" x="287.0" y="279" text-anchor="middle">機庫參觀</text></g>
+<text class="fn" x="6" y="318">開始前 15 分鐘報到，無法參觀</text>
+</svg>
+<div class="legend">
+  <span><i class="sw" style="background:var(--f-f);border-color:var(--f-s)"></i>可自由參觀</span>
+  <span><i class="sw" style="background:var(--card);border-color:var(--line)"></i>僅報到，不可參觀</span>
+  <span><i class="sw" style="background:var(--m-f);border-color:var(--m-s)"></i>見習本體</span>
+</div>
+</section>
+</main>
+<script>
+const A=[["09:30","10:45"],["10:45","12:00"],["13:00","14:15"],["14:15","15:30"],["15:30","16:45"]];
+const J=[["09:30","11:40"],["10:45","12:55"],["13:30","15:40",1],["14:45","16:55"]];
+const m=s=>{const p=s.split(':');return +p[0]*60+ +p[1]};
+const ay=i=>50+i*68, jy=j=>50+j*(52+116/3);
+const NS='http://www.w3.org/2000/svg';
+const nd=document.getElementById('nd'),ln=document.getElementById('ln'),st=document.getElementById('st');
+let sel=null,edges=[];
+function mk(side,i,t,x,y,cls,sub){
+  const g=document.createElementNS(NS,'g');
+  g.setAttribute('class','slot '+cls);
+  g.setAttribute('role','button');g.setAttribute('tabindex','0');
+  g.setAttribute('aria-label',sub+' '+t[0]+' 到 '+t[1]+(t[2]?'，不一定會開':''));
+  g.innerHTML='<rect x="'+x+'" y="'+y+'" width="170" height="52" rx="8"/>'
+   +'<text class="t" x="'+(x+85)+'" y="'+(y+19)+'" text-anchor="middle" dominant-baseline="central">'+t[0]+' – '+t[1]+'</text>'
+   +'<text class="s" x="'+(x+85)+'" y="'+(y+38)+'" text-anchor="middle" dominant-baseline="central">'+sub+'</text>'
+   +(t[2]?'<text class="s" x="'+(x+85)+'" y="'+(y+66)+'" text-anchor="middle" dominant-baseline="central">不一定會開此時段</text>':'');
+  const go=()=>{sel=(sel&&sel.side===side&&sel.i===i)?null:{side:side,i:i};render();};
+  g.addEventListener('click',go);
+  g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
+  nd.appendChild(g);return g;
+}
+const ga=A.map((t,i)=>mk('A',i,t,10,ay(i),'ana','ANA 第 '+(i+1)+' 場'));
+const gj=J.map((t,j)=>mk('J',j,t,280,jy(j),t[2]?'unk':'jal','JAL 第 '+(j+1)+' 場'));
+function render(){
+  const b=+document.getElementById('buf').value;
+  edges=[];
+  A.forEach((a,i)=>J.forEach((j,k)=>{if(m(a[1])+b<=m(j[0])||m(j[1])+b<=m(a[0]))edges.push([i,k]);}));
+  const hit=e=>sel&&((sel.side==='A'&&e[0]===sel.i)||(sel.side==='J'&&e[1]===sel.i));
+  ln.innerHTML=edges.map(e=>'<line class="e'+(hit(e)?' on':'')+'" style="opacity:'+(hit(e)?1:(sel?0.12:0.7))+'" x1="180" y1="'+(ay(e[0])+26)+'" x2="280" y2="'+(jy(e[1])+26)+'"/>').join('');
+  const nA=new Set(),nJ=new Set();
+  edges.forEach(e=>{if(hit(e)){nA.add(e[0]);nJ.add(e[1]);}});
+  ga.forEach((g,i)=>{const me=sel&&sel.side==='A'&&sel.i===i;g.style.opacity=(!sel||me||(sel.side==='J'&&nA.has(i)))?1:0.25;g.classList.toggle('sel',!!me);});
+  gj.forEach((g,j)=>{const me=sel&&sel.side==='J'&&sel.i===j;g.style.opacity=(!sel||me||(sel.side==='A'&&nJ.has(j)))?1:0.25;g.classList.toggle('sel',!!me);});
+  if(!sel){st.textContent='尚未選取。點一個時段開始。';return;}
+  const own=sel.side==='A'?A[sel.i]:J[sel.i];
+  const list=(sel.side==='A'?[...nJ]:[...nA]).sort((x,y)=>x-y).map(k=>{
+    const d=sel.side==='A'?J[k]:A[k];
+    return (sel.side==='A'?'JAL ':'ANA ')+d[0]+' – '+d[1]+(d[2]?'（不一定會開）':'');
+  });
+  st.textContent=(sel.side==='A'?'ANA ':'JAL ')+own[0]+' – '+own[1]+(own[2]?'（不一定會開）':'')
+    +(list.length?' 可搭配：'+list.join('、')+'，共 '+list.length+' 個。':' 目前沒有可搭配的場次。');
+}
+document.getElementById('buf').addEventListener('change',render);
+document.getElementById('clr').addEventListener('click',()=>{sel=null;render();});
+render();
+</script>
+</body>
+</html>
