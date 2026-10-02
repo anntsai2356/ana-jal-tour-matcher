@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ANA／JAL 見習場次配對</title>
 <style>
-:root{--bg:#F5F7FA;--card:#fff;--ink:#1B2430;--sub:#5B6675;--line:#C3CAD4;--a-f:#E8ECF8;--a-s:#3F51B5;--a-t:#1F2A6B;--j-f:#E0F2F1;--j-s:#00897B;--j-t:#004D45;--u-f:#FFF3E0;--u-s:#E65100;--u-t:#8A3B00;--f-f:#E4F4E1;--f-s:#4CAF50;--f-t:#0B6B0B;--m-f:#E3F0FC;--m-s:#4A90D9;--m-t:#184F95;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12171E;--card:#1B222B;--ink:#E8EDF3;--sub:#9AA6B5;--line:#3A4553;--a-f:#232B52;--a-s:#8C9AF0;--a-t:#DDE2FF;--j-f:#0F3A36;--j-s:#4DB6AC;--j-t:#CDEFEA;--u-f:#4A2A10;--u-s:#FFA057;--u-t:#FFD9B8;--f-f:#17331A;--f-s:#6FCF73;--f-t:#C8EEC9;--m-f:#15304D;--m-s:#6AA9EA;--m-t:#CFE4FA;}}
-:root[data-theme="dark"]{--bg:#12171E;--card:#1B222B;--ink:#E8EDF3;--sub:#9AA6B5;--line:#3A4553;--a-f:#232B52;--a-s:#8C9AF0;--a-t:#DDE2FF;--j-f:#0F3A36;--j-s:#4DB6AC;--j-t:#CDEFEA;--u-f:#4A2A10;--u-s:#FFA057;--u-t:#FFD9B8;--f-f:#17331A;--f-s:#6FCF73;--f-t:#C8EEC9;--m-f:#15304D;--m-s:#6AA9EA;--m-t:#CFE4FA;}
+:root{--bg:#F5F7FA;--card:#fff;--ink:#1B2430;--sub:#5B6675;--line:#C3CAD4;--a-f:#E8ECF8;--a-s:#3F51B5;--a-t:#1F2A6B;--j-f:#E0F2F1;--j-s:#00897B;--j-t:#004D45;--u-f:#FFF3E0;--u-s:#E65100;--u-t:#8A3B00;--f-f:#E4F4E1;--f-s:#4CAF50;--f-t:#0B6B0B;--m-f:#E3F0FC;--m-s:#4A90D9;--m-t:#184F95;--r-f:#FDECEA;--r-s:#D32F2F;--r-t:#B71C1C;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12171E;--card:#1B222B;--ink:#E8EDF3;--sub:#9AA6B5;--line:#3A4553;--a-f:#232B52;--a-s:#8C9AF0;--a-t:#DDE2FF;--j-f:#0F3A36;--j-s:#4DB6AC;--j-t:#CDEFEA;--u-f:#4A2A10;--u-s:#FFA057;--u-t:#FFD9B8;--f-f:#17331A;--f-s:#6FCF73;--f-t:#C8EEC9;--m-f:#15304D;--m-s:#6AA9EA;--m-t:#CFE4FA;--r-f:#3D1A1A;--r-s:#E53935;--r-t:#FFCDD2;}}
+:root[data-theme="dark"]{--bg:#12171E;--card:#1B222B;--ink:#E8EDF3;--sub:#9AA6B5;--line:#3A4553;--a-f:#232B52;--a-s:#8C9AF0;--a-t:#DDE2FF;--j-f:#0F3A36;--j-s:#4DB6AC;--j-t:#CDEFEA;--u-f:#4A2A10;--u-s:#FFA057;--u-t:#FFD9B8;--f-f:#17331A;--f-s:#6FCF73;--f-t:#C8EEC9;--m-f:#15304D;--m-s:#6AA9EA;--m-t:#CFE4FA;--r-f:#3D1A1A;--r-s:#E53935;--r-t:#FFCDD2;}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 system-ui,-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
 main{max-width:560px;margin:0 auto;padding:20px 16px 32px}
@@ -43,13 +43,67 @@ svg{width:100%;height:auto;display:block}
 .c.gate polygon{fill:var(--card);stroke:var(--line)}.c.gate text{fill:var(--ink)}.c.gate .d{fill:var(--sub)}
 .br{fill:none;stroke:var(--m-s);stroke-width:1.5;stroke-dasharray:4 3}
 .flow .legend{margin:4px 0 0}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:4px}
+.top h1{margin:0}
+#theme{margin-left:0;width:40px;height:40px;padding:0;display:grid;place-items:center;border-radius:50%;cursor:pointer;flex:none}
+#theme svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#theme[data-mode="dark"] .moon,#theme:not([data-mode="dark"]) .sun{display:none}
+#theme:focus-visible{outline:2px solid var(--m-s);outline-offset:2px}
+#st ul{margin:6px 0 0;padding-left:18px}
+#st li{margin:4px 0}
+#st .hint{display:block;font-size:12px;color:var(--u-t)}
+#st .t{font-weight:500}
+#st small{display:block;font-size:12px;color:var(--sub)}
+.btns{display:flex;gap:8px;margin-top:10px}
+.btns button{margin-left:0;padding:10px 16px}
+.btns .pri{flex:1}
+.pri{background:var(--m-f);border-color:var(--m-s);color:var(--m-t);font-weight:500}
+.btns button:disabled{opacity:.5;cursor:default}
+.tg{display:inline-block;font-size:11px;padding:0 6px;border-radius:4px;background:var(--u-f);color:var(--u-t);border:1px solid var(--u-s);margin-left:6px;vertical-align:1px}
+.cands{margin:24px 0 0}
+.cands h2{font-size:16px;font-weight:500;margin:0 0 8px}
+.cands h2 span{font-size:13px;font-weight:400;color:var(--sub)}
+.empty{font-size:14px;color:var(--sub);margin:0;padding:12px;border:1px dashed var(--line);border-radius:10px}
+.row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);margin:0 0 8px;min-height:64px;box-sizing:border-box;cursor:pointer}
+.row.hl{border:1.5px solid var(--m-s);padding:9.5px 11.5px}
+.row.drag{position:relative;z-index:3;border-color:var(--m-s);opacity:.96;cursor:grabbing}
+.hd{flex:none;width:22px;text-align:center;color:var(--sub);font-size:16px;letter-spacing:-2px;cursor:grab;touch-action:none;user-select:none;padding:8px 0}
+.rk{flex:none;width:24px;height:24px;border-radius:50%;background:var(--m-f);color:var(--m-t);border:1px solid var(--m-s);display:grid;place-items:center;font-size:12px;font-weight:500}
+.ti{flex:1;min-width:0;line-height:1.4}
+.ti b{font-weight:500}
+.ti small{display:block;font-size:12px;color:var(--sub)}
+.act{display:flex;gap:4px;flex:none}
+.act button{margin-left:0;width:28px;height:28px;padding:0;display:grid;place-items:center;border-radius:6px;font-size:13px;color:var(--sub)}
+.mv{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);padding:0;border:0}
+.row:focus-within .mv{position:static;width:28px;height:28px;clip:auto;border:1px solid var(--line)}
+.ft{display:flex;gap:8px;margin-top:4px}
+.ft button{flex:1;margin-left:0;padding:9px}
+.dng{background:var(--r-s);border-color:var(--r-s);color:#fff;font-weight:500}
+.cf{flex:1;background:var(--r-f);border:1px solid var(--r-s);color:var(--r-t);border-radius:10px;padding:10px 12px;font-size:14px}
+.cf div{display:flex;gap:8px;margin-top:8px}
+.cf button{flex:1;margin-left:0;padding:9px}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);border-radius:8px;padding:10px 14px;font-size:14px;display:flex;gap:14px;align-items:center;z-index:9}
+#toast[hidden]{display:none}
+#toast button{margin:0;padding:0;border:0;background:none;color:inherit;font-weight:500;text-decoration:underline;cursor:pointer}
+#imgm{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));z-index:10}
+#imgm[hidden]{display:none}
+.dlg{background:var(--card);border-radius:14px;max-width:440px;width:100%;max-height:100%;overflow:auto;padding:14px;box-sizing:border-box}
+.dlg p{font-size:14px;margin:0 0 10px}
+.dlg img{width:100%;height:auto;display:block;border-radius:8px;border:1px solid var(--line);-webkit-touch-callout:default;user-select:auto}
+.dlg button{margin:10px 0 0;width:100%;padding:10px}
 @media (prefers-reduced-motion:reduce){.slot,.e{transition:none}}
 </style>
 </head>
 <body>
 <main>
-<h1>ANA／JAL 見習場次配對</h1>
-<p class="sub">點任一邊的時段，看它可以搭配對方的哪些場次。連線代表兩場時間不重疊，且中間至少間隔所選的分鐘數。</p>
+<header class="top">
+  <h1>ANA／JAL 見習場次配對</h1>
+  <button id="theme" type="button" title="切換深淺色模式">
+    <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+  </button>
+</header>
+<p class="sub">先點一個場次，再點亮起的另一邊，預覽後按「加入候選」。連線代表兩場時間不重疊，且中間至少間隔所選的分鐘數。</p>
 <div class="ctl">
   <label for="buf">場次之間至少間隔</label>
   <select id="buf">
@@ -62,6 +116,7 @@ svg{width:100%;height:auto;display:block}
   <text class="h" x="365" y="24" text-anchor="middle">JAL・每場 130 分</text>
   <g id="ln"></g>
   <g id="nd"></g>
+  <g id="bd" style="pointer-events:none"></g>
 </svg>
 <div class="legend">
   <span><i class="sw" style="background:var(--a-f);border-color:var(--a-s)"></i>ANA</span>
@@ -69,6 +124,19 @@ svg{width:100%;height:auto;display:block}
   <span><i class="sw" style="background:var(--u-f);border-color:var(--u-s);border-style:dashed"></i>不一定會開</span>
 </div>
 <p id="st" aria-live="polite"></p>
+<section class="cands" aria-label="候選方案">
+  <h2>候選方案 <span id="cn"></span></h2>
+  <div id="cl"></div>
+  <div class="ft" id="cft"></div>
+</section>
+<div id="toast" role="status" hidden></div>
+<div id="imgm" role="dialog" aria-modal="true" aria-label="候選方案圖片" hidden>
+  <div class="dlg">
+    <p><strong>長按圖片</strong>，選「儲存」或「拷貝」就能分享。電腦上請在圖片上按右鍵。</p>
+    <img id="pimg" alt="候選方案圖片">
+    <button type="button" id="imc">關閉</button>
+  </div>
+</div>
 <section class="flow" aria-label="入場與參觀流程">
 <h2>見習流程</h2>
 <svg viewBox="0 0 460 332" role="img" aria-label="ANA 與 JAL 見習流程示意圖。ANA：報到自由參觀 30 分、說明會 15 分、機庫參觀 60 分、結束後自由參觀 30 分，其中說明會與機庫參觀共 75 分。JAL：報到 15 分，之後 80 分博物館體驗與 50 分機庫參觀，共 130 分的見習。">
@@ -99,8 +167,38 @@ const J=[["09:30","11:40"],["10:45","12:55"],["13:30","15:40",1],["14:45","16:55
 const m=s=>{const p=s.split(':');return +p[0]*60+ +p[1]};
 const ay=i=>50+i*68, jy=j=>50+j*(52+116/3);
 const NS='http://www.w3.org/2000/svg';
-const nd=document.getElementById('nd'),ln=document.getElementById('ln'),st=document.getElementById('st');
-let sel=null,edges=[];
+const $=id=>document.getElementById(id);
+const nd=$('nd'),ln=$('ln'),bd=$('bd'),st=$('st'),cl=$('cl'),cft=$('cft'),cn=$('cn'),buf=$('buf');
+let sel=null,par=null,edges=[],cands=[],cur=null,tt,confirmClear=false;
+try{const r=JSON.parse(localStorage.getItem('cands')||'[]');if(Array.isArray(r))cands=r.filter(c=>Array.isArray(c)&&A[c[0]]&&J[c[1]]).map(c=>[c[0],c[1]]);}catch(e){}
+const save=()=>{try{localStorage.setItem('cands',JSON.stringify(cands));}catch(e){}};
+const T=t=>String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');
+const D=t=>{const h=Math.floor(t/60),r=t%60;return h?h+' 小時'+(r?' '+r+' 分':''):r+' 分';};
+const has=(i,k)=>cands.findIndex(c=>c[0]===i&&c[1]===k);
+function hint(i,k){
+  const a=A[i],j=J[k];
+  if(m(a[1])<=m(j[0])){
+    const o=45-(m(j[0])-m(a[1]));
+    if(o>30)return 'JAL 開放入場時，ANA 見習還沒結束';
+    if(o>0)return 'ANA 結束後的自由參觀會縮短 '+o+' 分（JAL 開始前 15 分鐘開放入場）';
+  }else{
+    const g=m(a[0])-m(j[1]);
+    if(g<30)return 'ANA 報到時間（開始前 30 分）有 '+(30-g)+' 分與 JAL 重疊';
+  }
+  return '';
+}
+function info(i,k){
+  const a=A[i],j=J[k],f=m(a[1])<=m(j[0]);
+  const s=f?m(a[0])-30:m(j[0])-15,e=f?m(j[1]):m(a[1])+30;
+  return {aFirst:f,start:s,end:e,dur:e-s,gap:f?(m(j[0])-15)-(m(a[1])+30):(m(a[0])-30)-m(j[1]),h:hint(i,k)};
+}
+const rg=d=>d[0]+'–'+d[1];
+const full=(i,k)=>(info(i,k).aFirst?'ANA '+rg(A[i])+' → JAL '+rg(J[k]):'JAL '+rg(J[k])+' → ANA '+rg(A[i]));
+function toast(msg,undo){
+  const t=$('toast');t.innerHTML='<span></span>';t.firstChild.textContent=msg;
+  if(undo){const b=document.createElement('button');b.textContent='復原';b.onclick=()=>{undo();t.hidden=true;};t.appendChild(b);}
+  t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>{t.hidden=true;},4500);
+}
 function mk(side,i,t,x,y,cls,sub){
   const g=document.createElementNS(NS,'g');
   g.setAttribute('class','slot '+cls);
@@ -108,36 +206,199 @@ function mk(side,i,t,x,y,cls,sub){
   g.setAttribute('aria-label',sub+' '+t[0]+' 到 '+t[1]+(t[2]?'，不一定會開':''));
   g.innerHTML='<rect x="'+x+'" y="'+y+'" width="170" height="52" rx="8"/>'
    +'<text class="t" x="'+(x+85)+'" y="'+(y+19)+'" text-anchor="middle" dominant-baseline="central">'+t[0]+' – '+t[1]+'</text>'
-   +'<text class="s" x="'+(x+85)+'" y="'+(y+38)+'" text-anchor="middle" dominant-baseline="central">'+sub+'</text>'
-   +(t[2]?'<text class="s" x="'+(x+85)+'" y="'+(y+66)+'" text-anchor="middle" dominant-baseline="central">不一定會開此時段</text>':'');
-  const go=()=>{sel=(sel&&sel.side===side&&sel.i===i)?null:{side:side,i:i};render();};
+   +'<text class="s" x="'+(x+85)+'" y="'+(y+38)+'" text-anchor="middle" dominant-baseline="central">'+sub+'</text>';
+  g._s=g.children[2];g._b=sub;
+  const go=()=>pick(side,i);
   g.addEventListener('click',go);
   g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
   nd.appendChild(g);return g;
 }
 const ga=A.map((t,i)=>mk('A',i,t,10,ay(i),'ana','ANA 第 '+(i+1)+' 場'));
 const gj=J.map((t,j)=>mk('J',j,t,280,jy(j),t[2]?'unk':'jal','JAL 第 '+(j+1)+' 場'));
+const isEdge=(i,k)=>edges.some(e=>e[0]===i&&e[1]===k);
+function pick(side,i){
+  if(!sel){sel={side:side,i:i};par=null;}
+  else if(sel.side===side){if(sel.i===i){sel=null;par=null;}else{sel={side:side,i:i};par=null;}}
+  else if(side==='J'?isEdge(sel.i,i):isEdge(i,sel.i)){par=(par===i)?null:i;}
+  render();
+}
+const B=(x,y,r,t)=>'<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="var(--m-f)" stroke="var(--m-s)" stroke-width="1.5"/><text x="'+x+'" y="'+y+'" text-anchor="middle" dominant-baseline="central" style="font-size:'+(r>10?13:11)+'px;font-weight:500;fill:var(--m-t)">'+t+'</text>';
 function render(){
-  const b=+document.getElementById('buf').value;
-  edges=[];
+  const b=+buf.value;edges=[];
   A.forEach((a,i)=>J.forEach((j,k)=>{if(m(a[1])+b<=m(j[0])||m(j[1])+b<=m(a[0]))edges.push([i,k]);}));
-  const hit=e=>sel&&((sel.side==='A'&&e[0]===sel.i)||(sel.side==='J'&&e[1]===sel.i));
-  ln.innerHTML=edges.map(e=>'<line class="e'+(hit(e)?' on':'')+'" style="opacity:'+(hit(e)?1:(sel?0.12:0.7))+'" x1="180" y1="'+(ay(e[0])+26)+'" x2="280" y2="'+(jy(e[1])+26)+'"/>').join('');
+  if(sel&&par!==null&&!(sel.side==='A'?isEdge(sel.i,par):isEdge(par,sel.i)))par=null;
+  const pe=sel&&par!==null?(sel.side==='A'?[sel.i,par]:[par,sel.i]):null;
+  cur=pe;
+  const hit=e=>sel&&(sel.side==='A'?e[0]===sel.i:e[1]===sel.i);
+  const same=e=>pe&&e[0]===pe[0]&&e[1]===pe[1];
+  const L=(e,s)=>'<line x1="180" y1="'+(ay(e[0])+26)+'" x2="280" y2="'+(jy(e[1])+26)+'" '+s+' stroke-linecap="round"/>';
+  let base='',top='';
+  edges.forEach(e=>{if(same(e))return;if(hit(e)&&!pe)top+=L(e,'class="e on"');else base+=L(e,'class="e" style="opacity:'+(hit(e)?0.45:(sel?0.12:0.7))+'"');});
+  const cLines=cands.map(c=>L(c,'stroke="var(--m-s)" stroke-width="3.5" opacity="'+(sel?0.4:1)+'"')).join('');
+  ln.innerHTML=base+cLines+top+(pe?L(pe,'class="e on" style="stroke-width:3.5"'):'');
   const nA=new Set(),nJ=new Set();
   edges.forEach(e=>{if(hit(e)){nA.add(e[0]);nJ.add(e[1]);}});
-  ga.forEach((g,i)=>{const me=sel&&sel.side==='A'&&sel.i===i;g.style.opacity=(!sel||me||(sel.side==='J'&&nA.has(i)))?1:0.25;g.classList.toggle('sel',!!me);});
-  gj.forEach((g,j)=>{const me=sel&&sel.side==='J'&&sel.i===j;g.style.opacity=(!sel||me||(sel.side==='A'&&nJ.has(j)))?1:0.25;g.classList.toggle('sel',!!me);});
-  if(!sel){st.textContent='尚未選取。點一個時段開始。';return;}
-  const own=sel.side==='A'?A[sel.i]:J[sel.i];
-  const list=(sel.side==='A'?[...nJ]:[...nA]).sort((x,y)=>x-y).map(k=>{
-    const d=sel.side==='A'?J[k]:A[k];
-    return (sel.side==='A'?'JAL ':'ANA ')+d[0]+' – '+d[1]+(d[2]?'（不一定會開）':'');
+  const upd=(g,side,i)=>{
+    const me=sel&&sel.side===side&&sel.i===i;
+    const inP=!!pe&&(side==='A'?pe[0]===i:pe[1]===i);
+    const pt=sel&&sel.side!==side&&(side==='A'?nA.has(i):nJ.has(i));
+    g.style.opacity=!sel?1:(pe?(inP?1:pt?0.55:0.25):(me||pt?1:0.25));
+    g.classList.toggle('sel',!!(me||inP));
+    g._s.textContent=((me||inP)?'已選・':'')+g._b;
+  };
+  ga.forEach((g,i)=>upd(g,'A',i));gj.forEach((g,j)=>upd(g,'J',j));
+  let bh='';const ca={},cj={};
+  cands.forEach((c,n)=>{
+    bh+=B(230,(ay(c[0])+jy(c[1]))/2+26,11,n+1);
+    bh+=B(24+20*(ca[c[0]]||0),ay(c[0]),9,n+1);ca[c[0]]=(ca[c[0]]||0)+1;
+    bh+=B(294+20*(cj[c[1]]||0),jy(c[1]),9,n+1);cj[c[1]]=(cj[c[1]]||0)+1;
   });
-  st.textContent=(sel.side==='A'?'ANA ':'JAL ')+own[0]+' – '+own[1]+(own[2]?'（不一定會開）':'')
-    +(list.length?' 可搭配：'+list.join('、')+'，共 '+list.length+' 個。':' 目前沒有可搭配的場次。');
+  bd.innerHTML=bh;bd.style.opacity=sel?0.55:1;
+  renderStatus(pe);renderList(pe);
 }
-document.getElementById('buf').addEventListener('change',render);
-document.getElementById('clr').addEventListener('click',()=>{sel=null;render();});
+function renderStatus(pe){
+  if(!sel){st.textContent='先點一個場次；再點亮起的另一邊，就能預覽並加入候選。';return;}
+  const nm=sel.side==='A'?'ANA ':'JAL ';
+  const own=sel.side==='A'?A[sel.i]:J[sel.i];
+  if(pe){
+    const i=pe[0],k=pe[1],f=info(i,k),inC=has(i,k)>=0;
+    st.innerHTML='<div class="t">ANA '+rg(A[i])+' ＋ JAL '+rg(J[k])+(J[k][2]?'<span class="tg">不一定會開</span>':'')+'</div>'
+      +'<small>'+(f.aFirst?'ANA 先、JAL 後':'JAL 先、ANA 後')+'・全程 '+D(f.dur)+'（'+T(f.start)+'–'+T(f.end)+'）'+(f.gap>=0?'・空檔 '+D(f.gap):'')+'</small>'
+      +(f.h?'<span class="hint">提醒：'+f.h+'</span>':'')
+      +'<div class="btns"><button class="pri" data-a="'+(inC?'rm':'add')+'">'+(inC?'已在候選・移除':'加入候選')+'</button><button data-a="cancel">取消</button></div>';
+    return;
+  }
+  const items=(sel.side==='A'?[...new Set(edges.filter(e=>e[0]===sel.i).map(e=>e[1]))]:[...new Set(edges.filter(e=>e[1]===sel.i).map(e=>e[0]))]).map(k=>{
+    const d=sel.side==='A'?J[k]:A[k];
+    const h=sel.side==='A'?hint(sel.i,k):hint(k,sel.i);
+    return '<li>'+(sel.side==='A'?'JAL ':'ANA ')+d[0]+' – '+d[1]+(d[2]?'（不一定會開）':'')+(h?'<span class="hint">提醒：'+h+'</span>':'')+'</li>';
+  });
+  st.innerHTML='<div>'+nm+own[0]+' – '+own[1]+(own[2]?'（不一定會開）':'')+(items.length?' 可搭配 '+items.length+' 個，再點一個：':' 目前沒有可搭配的場次。')+'</div>'
+    +(items.length?'<ul>'+items.join('')+'</ul><div class="btns"><button class="pri" disabled>再選對方一個場次</button></div>':'');
+}
+function renderList(pe){
+  cn.textContent='（'+cands.length+' 組）';
+  cl.innerHTML=cands.length?cands.map((c,n)=>{
+    const f=info(c[0],c[1]);
+    return '<div class="row'+(pe&&pe[0]===c[0]&&pe[1]===c[1]?' hl':'')+'" data-i="'+n+'"><div class="hd" title="按住拖曳排序">⋮⋮</div><div class="rk">'+(n+1)+'</div>'
+      +'<div class="ti"><b>'+full(c[0],c[1])+'</b>'+(J[c[1]][2]?'<span class="tg">不一定會開</span>':'')+'<small>全程 '+D(f.dur)+'・'+(f.gap>=0?'空檔 '+D(f.gap):'時間較緊')+'</small></div>'
+      +'<div class="act"><button class="mv" data-a="up" aria-label="上移">↑</button><button class="mv" data-a="down" aria-label="下移">↓</button><button data-a="del" aria-label="移除">✕</button></div></div>';
+  }).join(''):'<p class="empty">還沒有候選。選好兩個場次後，按「加入候選」。</p>';
+  if(!cands.length)confirmClear=false;
+  cft.innerHTML=!cands.length?'':confirmClear?'<div class="cf">確定要清除全部 '+cands.length+' 組候選嗎？<div><button data-a="no">取消</button><button data-a="yes" class="dng">確定清除</button></div></div>'
+    :'<button data-a="img" class="pri">存成圖片</button><button data-a="copy" class="pri">複製文字</button><button data-a="ask" class="dng">全部清除</button>';
+}
+st.addEventListener('click',e=>{
+  const a=e.target.closest('[data-a]');if(!a||!cur)return;
+  const i=cur[0],k=cur[1],x=a.dataset.a;
+  if(x==='add'&&has(i,k)<0){cands.push([i,k]);save();toast('已加入方案 '+cands.length,()=>{cands.pop();save();render();});sel=null;par=null;}
+  else if(x==='rm'){const n=has(i,k),c=cands.splice(n,1)[0];save();toast('已移除方案 '+(n+1),()=>{cands.splice(n,0,c);save();render();});sel=null;par=null;}
+  else if(x==='cancel'){sel=null;par=null;}
+  render();
+});
+function mv(n,d){const t=n+d;if(t<0||t>=cands.length)return;const c=cands.splice(n,1)[0];cands.splice(t,0,c);save();render();}
+cl.addEventListener('click',e=>{
+  const row=e.target.closest('.row');if(!row||e.target.closest('.hd'))return;
+  const n=+row.dataset.i,a=e.target.closest('button');
+  if(a){
+    const x=a.dataset.a;
+    if(x==='up')mv(n,-1);else if(x==='down')mv(n,1);
+    else if(x==='del'){const c=cands.splice(n,1)[0];save();toast('已移除方案 '+(n+1),()=>{cands.splice(n,0,c);save();render();});render();}
+    return;
+  }
+  sel={side:'A',i:cands[n][0]};par=cands[n][1];render();
+  $('sv').scrollIntoView({behavior:'smooth',block:'center'});
+});
+cl.addEventListener('pointerdown',e=>{
+  const h=e.target.closest('.hd');if(!h)return;
+  const row=h.closest('.row');e.preventDefault();h.setPointerCapture(e.pointerId);
+  row.classList.add('drag');let y0=e.clientY;
+  const move=ev=>{
+    row.style.transform='translateY('+(ev.clientY-y0)+'px)';
+    const mid=row.getBoundingClientRect().top+row.offsetHeight/2,p=row.previousElementSibling,n=row.nextElementSibling;
+    if(p&&p.classList.contains('row')&&mid<p.getBoundingClientRect().top+p.offsetHeight/2){const s=p.offsetHeight+8;cl.insertBefore(row,p);y0-=s;row.style.transform='translateY('+(ev.clientY-y0)+'px)';}
+    else if(n&&n.classList.contains('row')&&mid>n.getBoundingClientRect().top+n.offsetHeight/2){const s=n.offsetHeight+8;cl.insertBefore(row,n.nextSibling);y0+=s;row.style.transform='translateY('+(ev.clientY-y0)+'px)';}
+  };
+  const end=()=>{
+    h.removeEventListener('pointermove',move);h.removeEventListener('pointerup',end);h.removeEventListener('pointercancel',end);
+    const ids=[...cl.querySelectorAll('.row')].map(r=>+r.dataset.i);
+    cands=ids.map(i=>cands[i]);save();render();
+  };
+  h.addEventListener('pointermove',move);h.addEventListener('pointerup',end);h.addEventListener('pointercancel',end);
+});
+function makeImage(){
+  const S=3,W=360,P=20,CH=94,TOP=84,n=cands.length,H=TOP+n*(CH+10)+46;
+  const cv=document.createElement('canvas');cv.width=W*S;cv.height=H*S;
+  const c=cv.getContext('2d');c.scale(S,S);
+  const FF='system-ui,-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';
+  const f=(w,z)=>{c.font=w+' '+z+'px '+FF;};
+  const rr=(x,y,w,h,r)=>{c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();};
+  const sh=h=>{const q=h.match(/縮短 (\d+) 分/);return q?'ANA 自由參觀縮短 '+q[1]+' 分':h.indexOf('報到')>=0?'ANA 報到時間與 JAL 重疊':'JAL 入場時 ANA 見習還沒結束';};
+  c.fillStyle='#F5F7FA';c.fillRect(0,0,W,H);c.textBaseline='middle';c.textAlign='left';
+  f(600,18);c.fillStyle='#1B2430';c.fillText('ANA／JAL 見習場次候選',P,30);
+  f(400,11);c.fillStyle='#5B6675';c.fillText('依志願順序・場次間隔至少 '+buf.value+' 分',P,52);
+  const X0=P+14,sc=(W-2*P-28)/510,px=t=>X0+(t-540)*sc,ticks=[540,660,780,900,1020];
+  f(400,10);c.textAlign='center';ticks.forEach(t=>c.fillText(T(t),px(t),72));c.textAlign='left';
+  const G=['#E4F4E1','#4CAF50'],Bl=['#E3F0FC','#4A90D9'],Gr=['#EEF1F4','#C3CAD4'],Am=['#FFF3E0','#E65100'];
+  cands.forEach((cd,idx)=>{
+    const i=cd[0],k=cd[1],a=A[i],j=J[k],fi=info(i,k),y=TOP+idx*(CH+10),by=y+64;
+    rr(P,y,W-2*P,CH,10);c.fillStyle='#fff';c.fill();c.strokeStyle='#C3CAD4';c.lineWidth=1;c.stroke();
+    c.strokeStyle='#E3E7EC';ticks.forEach(t=>{c.beginPath();c.moveTo(px(t),y+60);c.lineTo(px(t),y+84);c.stroke();});
+    c.beginPath();c.arc(P+22,y+21,10,0,7);c.fillStyle='#E3F0FC';c.fill();c.strokeStyle='#4A90D9';c.stroke();
+    f(600,12);c.fillStyle='#184F95';c.textAlign='center';c.fillText(String(idx+1),P+22,y+21);c.textAlign='left';
+    f(600,13);c.fillStyle='#1B2430';c.fillText(full(i,k),P+40,y+21);
+    f(400,11);c.fillStyle='#5B6675';const mt='全程 '+D(fi.dur)+'・'+(fi.gap>=0?'空檔 '+D(fi.gap):'時間較緊');c.fillText(mt,P+40,y+40);
+    if(j[2]){const tx=P+40+c.measureText(mt).width+8;rr(tx,y+32,62,16,4);c.fillStyle='#FFF3E0';c.fill();c.strokeStyle='#E65100';c.stroke();f(400,10);c.fillStyle='#8A3B00';c.fillText('不一定會開',tx+6,y+40);}
+    if(fi.h){f(400,10.5);c.fillStyle='#8A3B00';c.fillText('提醒：'+sh(fi.h),P+14,y+54);}
+    const bar=(t0,t1,col,lab,lc,dash)=>{
+      if(t1<=t0)return;const bx=px(t0),bw=px(t1)-bx;
+      rr(bx,by,bw,18,3);c.fillStyle=col[0];c.fill();c.strokeStyle=col[1];c.setLineDash(dash?[3,2]:[]);c.stroke();c.setLineDash([]);
+      if(lab&&bw>26){f(500,10);c.fillStyle=lc;c.textAlign='center';c.fillText(lab,bx+bw/2,by+9);c.textAlign='left';}
+    };
+    const a0=m(a[0]),a1=m(a[1]),j0=m(j[0]),j1=m(j[1]);
+    bar(fi.aFirst?a0-30:Math.max(a0-30,j1),a0,G);
+    bar(a0,a1,Bl,'ANA','#184F95');
+    bar(a1,fi.aFirst?Math.min(a1+30,j0-15):a1+30,G);
+    bar(j0-15,j0,Gr);
+    bar(j0,j1,j[2]?Am:Bl,'JAL',j[2]?'#8A3B00':'#184F95',j[2]);
+  });
+  const ly=TOP+n*(CH+10)+12;
+  [['入場（不可參觀）',Gr,P],['可自由參觀',G,P+108],['見習本體',Bl,P+196]].forEach(l=>{
+    rr(l[2],ly-5,10,10,2);c.fillStyle=l[1][0];c.fill();c.strokeStyle=l[1][1];c.stroke();
+    f(400,10);c.fillStyle='#5B6675';c.fillText(l[0],l[2]+15,ly);
+  });
+  $('pimg').src=cv.toDataURL('image/png');
+  $('imgm').hidden=false;$('imc').focus();
+}
+function copyText(t){
+  const fb=()=>new Promise((ok,no)=>{const ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();let r=false;try{r=document.execCommand('copy');}catch(e){}ta.remove();r?ok():no();});
+  return navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t).catch(fb):fb();
+}
+cft.addEventListener('click',e=>{
+  const a=e.target.closest('button');if(!a)return;
+  const x=a.dataset.a;
+  if(x==='img')makeImage();
+  else if(x==='copy'){
+    const txt=cands.map((c,n)=>(n+1)+'. '+full(c[0],c[1])+(J[c[1]][2]?'（不一定會開）':'')).join('\n');
+    copyText(txt).then(()=>toast('已複製志願順序'),()=>toast('無法自動複製，請改用「存成圖片」'));
+  }
+  else if(x==='ask'){confirmClear=true;renderList(cur);}
+  else if(x==='no'){confirmClear=false;renderList(cur);}
+  else if(x==='yes'){const old=cands.slice();cands=[];confirmClear=false;save();toast('已清除全部候選',()=>{cands=old;save();render();});render();}
+});
+const closeM=()=>{$('imgm').hidden=true;};
+$('imc').addEventListener('click',closeM);
+$('imgm').addEventListener('click',e=>{if(e.target===$('imgm'))closeM();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+const root=document.documentElement,tb=$('theme'),mq=window.matchMedia('(prefers-color-scheme: dark)');
+try{const sv=localStorage.getItem('theme');if(sv==='dark'||sv==='light')root.setAttribute('data-theme',sv);}catch(e){}
+const curTheme=()=>root.getAttribute('data-theme')||(mq.matches?'dark':'light');
+const paintTheme=()=>{const d=curTheme()==='dark';tb.dataset.mode=d?'dark':'light';tb.setAttribute('aria-label',d?'切換為淺色模式':'切換為深色模式');};
+tb.addEventListener('click',()=>{const n=curTheme()==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('theme',n);}catch(e){}paintTheme();});
+mq.addEventListener('change',paintTheme);
+paintTheme();
+buf.addEventListener('change',render);
+$('clr').addEventListener('click',()=>{sel=null;par=null;render();});
 render();
 </script>
 </body>
